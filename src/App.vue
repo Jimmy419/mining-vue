@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { Layout } from './layout'
+import { Mining } from './components'
 </script>
 
 <template>
@@ -16,8 +17,12 @@ import HelloWorld from './components/HelloWorld.vue'
       </nav>
     </div>
   </header> -->
-
-  <RouterView />
+  <Layout>
+    <template v-slot:left> <RouterView /> </template>
+    <template v-slot:right>
+      <Mining></Mining>
+    </template>
+  </Layout>
 </template>
 
 <style scoped>

@@ -1,1 +1,1 @@
-export { default as PopUp } from './PopUp.vue'
+export * from './mining'

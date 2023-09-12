@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../http'
 // import { searchParam } from "../models/common.model";
 
 const ASTEROIDS = 'https://asteroids.dev.mediasia.cn/asteroids'
@@ -7,7 +7,7 @@ const ASTEROIDS = 'https://asteroids.dev.mediasia.cn/asteroids'
  * get asteroid list
  * @returns
  */
-export function getAsteroidsList() {
+export function getAsteroidsListApi() {
   return axios({
     url: ASTEROIDS,
     method: 'get'

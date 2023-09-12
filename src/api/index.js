@@ -1,1 +1,2 @@
-export * from './asteroids.api'
+export * from './asteroid.api'
+export * from './miner.api'

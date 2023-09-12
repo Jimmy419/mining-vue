@@ -2,17 +2,17 @@
 // import { onMounted, reactive } from 'vue'
 import { io } from 'socket.io-client'
 import { reactive, ref, onMounted } from 'vue'
-import { PlanetNode } from './components'
-import { PopUp } from '../../components'
+import PlanetNode from './PlanetNode.vue'
+
 // onMounted(() => {
 //   socket.connect()
 // })
-// const URL = 'https://asteroids.dev.mediasia.cn'
-// const socket = io(URL)
+const URL = 'https://asteroids.dev.mediasia.cn'
+const socket = io(URL)
 
-// socket.on('connect', () => {})
+socket.on('connect', () => {})
 
-// socket.on('disconnect', () => {})
+socket.on('disconnect', () => {})
 
 const dataSource = reactive({
   miners: [
@@ -537,77 +537,65 @@ const dataSource = reactive({
   currentTick: 4
 })
 
-// socket.on('tick', (...args) => {
-//   console.log('args', args)
-//   dataSource.miners = [...args[0].miners]
-//   dataSource.planets = [...args[0].planets]
-//   dataSource.asteroids = [...args[0].asteroids]
-//   dataSource.currentTick = args[0].currentTick
-// })
-
-const show = ref(false)
-
-onMounted(() => {
-  show.value = true
+socket.on('tick', (...args) => {
+  dataSource.miners = [...args[0].miners]
+  dataSource.planets = [...args[0].planets]
+  dataSource.asteroids = [...args[0].asteroids]
+  dataSource.currentTick = args[0].currentTick
 })
 </script>
 
 <template>
-  <main>
-    <PopUp v-model:show="show" header="List of miners of Pl1" content="hello">
-      <template v-slot:content> 'asdfasdfasdfasdfasd' </template>
-    </PopUp>
-    <div class="map">
-      <img class="mining-map" src="/images/Background.png" />
-      <div
-        class="planet-box"
-        v-for="planetObj in dataSource.planets"
-        :key="planetObj._id"
-        :style="{
-          left: (planetObj.position.x * 100) / 1000 + '%',
-          top: (planetObj.position.y * 100) / 1000 + '%'
-        }"
-      >
-        <PlanetNode :planetObj="planetObj"></PlanetNode>
-      </div>
+  <div class="map">
+    <img class="mining-map" src="/images/Background.png" />
+    <div
+      class="planet-box"
+      v-for="planetObj in dataSource.planets"
+      :key="planetObj._id"
+      :style="{
+        left: (planetObj.position.x * 100) / 1000 + '%',
+        top: (planetObj.position.y * 100) / 1000 + '%'
+      }"
+    >
+      <PlanetNode :planetObj="planetObj"></PlanetNode>
+    </div>
 
-      <!-- <div class="planet-two">
+    <!-- <div class="planet-two">
         <img class="mining-map" src="/images/planet-2.png" />
       </div>
       <div class="planet-three">
         <img class="mining-map" src="/images/planet-3.png" />
       </div> -->
 
-      <div
-        class="asteroid-box"
-        v-for="asteroidObj in dataSource.asteroids"
-        :key="asteroidObj._id"
-        :style="{
-          left: (asteroidObj.position.x * 100) / 1000 + '%',
-          top: (asteroidObj.position.y * 100) / 1000 + '%'
-        }"
-      >
-        <img class="asteroid-img" src="/images/asteroid-icon.svg" />
-      </div>
-
-      <span
-        class="icon-miner"
-        v-for="minerObj in dataSource.miners"
-        :key="minerObj._id"
-        :style="{
-          left: (minerObj.x * 100) / 1000 + '%',
-          top: (minerObj.y * 100) / 1000 + '%',
-          transform: 'translate(-50%, -50%) rotate(' + (minerObj.angle + 90) + 'deg)'
-        }"
-      ></span>
+    <div
+      class="asteroid-box"
+      v-for="asteroidObj in dataSource.asteroids"
+      :key="asteroidObj._id"
+      :style="{
+        left: (asteroidObj.position.x * 100) / 1000 + '%',
+        top: (asteroidObj.position.y * 100) / 1000 + '%'
+      }"
+    >
+      <img class="asteroid-img" src="/images/asteroid-icon.svg" />
     </div>
-  </main>
+
+    <span
+      class="icon-miner"
+      v-for="minerObj in dataSource.miners"
+      :key="minerObj._id"
+      :style="{
+        left: (minerObj.x * 100) / 1000 + '%',
+        top: (minerObj.y * 100) / 1000 + '%',
+        transform: 'translate(-50%, -50%) rotate(' + (minerObj.angle + 90) + 'deg)'
+      }"
+    ></span>
+  </div>
 </template>
 
 <style scoped>
 .map {
   position: relative;
-  max-width: 100vh;
+  max-width: 100vw;
   margin: auto;
   width: 100%;
   overflow: hidden;
