@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="p-20 pb-30">
     <h6 class="header-box"><span class="icon-logo"></span><span>BACKEND MINER</span></h6>
   </header>
 </template>

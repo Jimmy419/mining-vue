@@ -27,7 +27,7 @@
 <style scoped>
 .navigator {
   display: flex;
-  margin-top: 30px;
+  padding-left: 20px;
 }
 
 .link-item {

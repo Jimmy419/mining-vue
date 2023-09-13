@@ -18,14 +18,26 @@ import { Mining } from './components'
     </div>
   </header> -->
   <Layout>
-    <template v-slot:left> <RouterView /> </template>
+    <template v-slot:left>
+      <div class="view-content">
+        <RouterView />
+      </div>
+    </template>
     <template v-slot:right>
+      <!-- <div class="p-20"> -->
+      <div class="font-16 color-white">250 YEARS</div>
       <Mining></Mining>
+      <!-- </div> -->
     </template>
   </Layout>
 </template>
 
 <style scoped>
+.view-content {
+  border-top: 1px solid #33344b;
+  margin-top: 20px;
+  padding: 0 20px;
+}
 /* header {
   line-height: 1.5;
   max-height: 100vh;

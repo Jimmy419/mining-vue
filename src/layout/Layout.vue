@@ -21,10 +21,8 @@ import Navigator from './Navigator.vue'
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main-box {
-  padding: 20px;
   display: block;
   width: 100vw;
-  padding: 20px;
   background-color: #101123;
 }
 .main-content {
@@ -33,11 +31,10 @@ import Navigator from './Navigator.vue'
 
 .left-part {
   flex: 0 0 auto;
-  width: 50%;
 }
 
 .right-part {
-  flex: 0 0 auto;
-  width: 50%;
+  flex: 1 1 auto;
+  padding-right: 20px;
 }
 </style>
