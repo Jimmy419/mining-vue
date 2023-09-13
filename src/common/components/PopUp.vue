@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 
 const emit = defineEmits(['update:show'])
 
@@ -41,7 +41,6 @@ const showFlag = computed({
 })
 
 const closeHander = () => {
-  console.log('hide')
   showFlag.value = false
 }
 </script>

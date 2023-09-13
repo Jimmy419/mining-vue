@@ -1,14 +1,14 @@
 <script setup>
 import { ref } from 'vue'
-import { PopUp } from '../common'
 import { getAsteroidsListApi } from '../api'
 
-const show = ref(false)
-// onMounted(() => {
-//   show.value = true
-// })
-const dataList = ref([])
+import socket from '../socket'
 
+socket.on('tick', (...args) => {
+  dataList.value = [...args[0].asteroids]
+})
+
+const dataList = ref([])
 const getDataCall = () => {
   getAsteroidsListApi().then(({ data }) => {
     console.log('data', data)
@@ -20,9 +20,6 @@ getDataCall()
 </script>
 
 <template>
-  <PopUp v-model:show="show" header="List of miners of Pl1" content="hello">
-    <template v-slot:content> 'asdfasdfasdfasdfasd' </template>
-  </PopUp>
   <table class="common-table" cellpadding="0" cellspacing="0">
     <tr>
       <th>Name</th>
@@ -32,8 +29,8 @@ getDataCall()
     </tr>
     <tr v-for="item in dataList" :key="item._id">
       <td class="color-white">{{ item.name }}</td>
-      <td>{{ item.minerals }}</td>
-      <td>{{ item.currentMiner }}</td>
+      <td :class="item.minerals == 0 ? 'color-fail' : ''">{{ item.minerals }}</td>
+      <td>{{ item.currentMiner ? item.currentMiner.name : '' }}</td>
       <td>{{ item.position.x }},{{ item.position.y }}</td>
     </tr>
   </table>

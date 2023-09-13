@@ -8,6 +8,7 @@ axios.interceptors.response.use(
   },
   (error) => {
     console.log('error', error)
+    alert(error)
     // Do something with response error
     return Promise.reject(error)
   }

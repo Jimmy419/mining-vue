@@ -48,6 +48,10 @@ a,
 .color-success {
   color: #00cf67;
 }
+
+.color-fail {
+  color: #eb5757;
+}
 /**colors**end*/
 
 /**space**begin*/

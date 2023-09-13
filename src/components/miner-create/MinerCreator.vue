@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, toRaw } from 'vue'
+import { computed, reactive, toRaw, watch } from 'vue'
 import { PopUp } from '../../common'
 import { getMinersListApi, createMinersApi } from '../../api'
 import { MINER_IDLE_STATUS } from '../../constants'
@@ -77,13 +77,24 @@ const props = defineProps({
   },
   planetList: {
     type: Array
+  },
+  planetId: {
+    type: String
   }
 })
+
+watch(
+  () => props.planetId,
+  () => {
+    if (props.planetId) {
+      formData.planet = props.planetId
+    }
+  }
+)
 
 const checkIfMinerExist = (minerName, fun) => {
   let ifExist = false
   getMinersListApi().then(({ data }) => {
-    console.log('daatt', data)
     for (let i = 0; i < data.length; i++) {
       if (data[i].name == minerName) {
         ifExist = true
@@ -99,26 +110,6 @@ const checkIfMinerExist = (minerName, fun) => {
   })
 }
 
-// const skema = {
-//   name: { type: String, required: true },
-//   planet: {
-//     type: Schema.Types.ObjectId,
-//     ref: 'Planet'
-//   },
-//   x: { type: Number, required: true },
-//   y: { type: Number, required: true },
-//   target: {
-//     type: Schema.Types.ObjectId,
-//     ref: 'Asteroid'
-//   },
-//   angle: { type: Number, required: true },
-//   targetType: String,
-//   carryCapacity: { type: Number, required: true },
-//   travelSpeed: { type: Number, required: true },
-//   miningSpeed: { type: Number, required: true },
-//   status: { type: Number, required: true },
-//   minerals: { type: Number, required: true },
-// }
 const setMinerPosition = () => {
   const positionO = { x: 0, y: 0 }
   if (props.planetList && formData.planet) {
@@ -194,9 +185,6 @@ const validateForm = () => {
 const submitForm = () => {
   checkIfMinerExist(formData.name, () => {
     if (validateForm()) {
-      // 执行提交操作
-      // 这里可以调用接口或执行其他操作
-      console.log('表单提交成功')
       const dataToPost = {
         ...toRaw(formData),
         ...setMinerPosition(),

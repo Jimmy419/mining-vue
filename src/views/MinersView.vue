@@ -1,22 +1,24 @@
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { PopUp } from '../common'
-import { getMinersListApi } from '../api'
+// import { getMinersListApi } from '../api'
 import { MINER_STATUS_MAP } from '../constants'
+import socket from '../socket'
+
+socket.on('tick', (...args) => {
+  minersList.value = [...args[0].miners]
+})
 
 const show = ref(false)
-// onMounted(() => {
-//   show.value = true
-// })
 const minersList = ref([])
 
-const getMinersCall = () => {
-  getMinersListApi().then(({ data }) => {
-    minersList.value = data
-  })
-}
+// const getMinersCall = () => {
+//   getMinersListApi().then(({ data }) => {
+//     minersList.value = data
+//   })
+// }
 
-getMinersCall()
+// getMinersCall()
 </script>
 
 <template>
@@ -35,12 +37,18 @@ getMinersCall()
     </tr>
     <tr v-for="minerObj in minersList" :key="minerObj._id">
       <td class="color-white">{{ minerObj.name }}</td>
-      <td>{{ minerObj.planet }}</td>
-      <td>{{ minerObj.carryCapacity }}</td>
+      <td>{{ minerObj.planet.name }}</td>
+      <td :class="minerObj.carryCapacity == 200 ? 'color-success' : ''">
+        {{ minerObj.carryCapacity }}/200
+      </td>
       <td>{{ minerObj.travelSpeed }}</td>
       <td>{{ minerObj.miningSpeed }}</td>
-      <td>{{ minerObj.x }},{{ minerObj.y }}</td>
-      <td>{{ MINER_STATUS_MAP[minerObj.status] }}</td>
+      <td>
+        <div class="fix-width">{{ parseInt(minerObj.x) }},{{ parseInt(minerObj.y) }}</div>
+      </td>
+      <td>
+        <div class="fix-width">{{ MINER_STATUS_MAP[minerObj.status] }}</div>
+      </td>
     </tr>
   </table>
 </template>
@@ -65,5 +73,9 @@ getMinersCall()
 .right-part {
   width: 50%;
   flex: 0 0 auto;
+}
+
+.fix-width {
+  width: 50px;
 }
 </style>

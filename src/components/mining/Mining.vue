@@ -1,18 +1,16 @@
 <script setup>
-// import { onMounted, reactive } from 'vue'
 import { io } from 'socket.io-client'
 import { reactive, ref, onMounted } from 'vue'
 import PlanetNode from './PlanetNode.vue'
 
-// onMounted(() => {
-//   socket.connect()
-// })
-const URL = 'https://asteroids.dev.mediasia.cn'
-const socket = io(URL)
+import socket from '../../socket'
 
-socket.on('connect', () => {})
+// const URL = 'https://asteroids.dev.mediasia.cn'
+// const socket = io(URL)
 
-socket.on('disconnect', () => {})
+// socket.on('connect', () => {})
+
+// socket.on('disconnect', () => {})
 
 const dataSource = reactive({
   miners: [
@@ -559,13 +557,6 @@ socket.on('tick', (...args) => {
     >
       <PlanetNode :planetObj="planetObj"></PlanetNode>
     </div>
-
-    <!-- <div class="planet-two">
-        <img class="mining-map" src="/images/planet-2.png" />
-      </div>
-      <div class="planet-three">
-        <img class="mining-map" src="/images/planet-3.png" />
-      </div> -->
 
     <div
       class="asteroid-box"
