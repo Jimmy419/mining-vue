@@ -13,7 +13,7 @@ I use vue3 to build the app, cause I'm afraid I won't finish it before the deadl
 9. App.vue --- The home page
 10. http.js --- Do some injections in axios, here we do some common error handlings
 11. main.js --- Then entry point of the project
-12. socket.js --- Websocket collection
+12. socket.js --- Websocket connection
 
 ## Recommended IDE Setup
 
