@@ -1,12 +1,14 @@
 <script setup>
-import { ref } from 'vue'
-import { PopUp } from '../common'
+import { ref, onMounted } from 'vue'
 import { getPlanetListApi } from '../api'
+import { MinerCreator } from '../components'
+import { PopUp } from '../common'
 
 const show = ref(false)
-// onMounted(() => {
-//   show.value = true
-// })
+const createItem = () => {
+  show.value = true
+}
+
 const dataList = ref([])
 
 const getDataCall = () => {
@@ -17,12 +19,28 @@ const getDataCall = () => {
 }
 
 getDataCall()
+
+const showMessage = ref(false)
+const dataSaved = () => {
+  show.value = false
+  getDataCall()
+  showMessage.value = true
+  setTimeout(() => {
+    showMessage.value = false
+  }, 2000)
+}
+
+// onMounted(() => {
+//   showMessage.value = true
+//   //   setTimeout(() => {
+//   //     showMessage.value = false
+//   //   }, 2000)
+// })
 </script>
 
 <template>
-  <PopUp v-model:show="show" header="List of miners of Pl1" content="hello">
-    <template v-slot:content> 'asdfasdfasdfasdfasd' </template>
-  </PopUp>
+  <PopUp v-model:show="showMessage" content="The miner was successfully created"></PopUp>
+  <MinerCreator v-model:show="show" :planetList="dataList" @dataSaved="dataSaved"></MinerCreator>
   <table class="common-table" cellpadding="0" cellspacing="0">
     <tr>
       <th>Name</th>
@@ -37,7 +55,7 @@ getDataCall()
         <div :class="item.minerals >= 1000 ? 'color-success' : ''">{{ item.minerals }}/1000</div>
       </td>
       <td>
-        <span class="action-kit">
+        <span class="action-kit" @click="createItem">
           <span class="icon-add-miner"></span><span> Create a miner</span>
         </span>
       </td>

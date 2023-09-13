@@ -8,3 +8,11 @@ export function getMinersListApi() {
     method: 'get'
   })
 }
+
+export function createMinersApi(minerObj) {
+  return axios({
+    url: MINERS,
+    method: 'post',
+    data: minerObj
+  })
+}

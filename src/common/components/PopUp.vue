@@ -87,6 +87,8 @@ const closeHander = () => {
 }
 
 .content-box {
+  color: #fff;
   padding: 20px;
+  text-align: center;
 }
 </style>
